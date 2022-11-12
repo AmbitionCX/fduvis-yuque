@@ -23,6 +23,12 @@ app.get('/getUsersBalance', (request, response) => {
     });
 })
 
+// update user_balance in database every 10 mins
+const minutes = 5;
+setInterval(function() {
+  txFunctions.UpdateBalance();
+}, minutes * 60 * 1000);
+
 app.get('/', (request, response) => {
   response.sendFile(__dirname + '/frontend/main.html');
 })
