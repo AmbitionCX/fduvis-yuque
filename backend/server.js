@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {sql} = require('@databases/pg');
 const db = require('./database');
-import {sendTransaction, UpdateBalance} from './transactions.js';
+const txFunctions = require('./transactions');
 
 const app = express();
 const port = 8083;
 require('dotenv').config();
 
-app.use(cors());
+app.use(express.static('./public'));
 app.use(bodyParser.json());
 
 async function getUsersBalance(){
@@ -16,8 +16,15 @@ async function getUsersBalance(){
   return usersBalance;
 }
 
+app.get('/getUsersBalance', (request, response) => {
+  getUsersBalance()
+    .then(results => {
+      response.send(results);
+    });
+})
+
 app.get('/', (request, response) => {
-  response.sendFile('frontend/main.html');
+  response.sendFile(__dirname + '/frontend/main.html');
 })
 
 app.post('/', async (req, res) => {
@@ -52,7 +59,7 @@ app.post('/', async (req, res) => {
     let target_address = addressMessage[0].user_wallet;
 
     // Transfor tokens to address
-    await sendTransaction(target_address, token_amount.toString());
+    await txFunctions.sendTransaction(target_address, token_amount.toString());
     await db.query(sql`
         insert into yq_actions(f_user, f_path, f_doc, f_action, f_time, f_amount)
         values (${user_id}, ${doc_path}, ${doc_title}, ${action_type}, ${update_time}, ${token_amount})

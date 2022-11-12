@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FVC Ranks</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+    <script>
+      var usersBalance
+      function getUsersBalance(){
+        $.ajax({
+            async:false,
+            url: "getUsersBalance",
+            method: 'GET',
+            success: function(data){
+              usersBalance = data
+            },
+            error: function(error_data){
+              console.log("error")
+              console.log(error_data)
+            }
+        })
+      }
+      getUsersBalance()
+      // console.log(usersBalance)
+    </script>
+  </body>
+</html>

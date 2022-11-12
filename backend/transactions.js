@@ -65,4 +65,4 @@ async function UpdateBalance(){
   }
 }
 
-export default {sendTransaction, UpdateBalance};
+module.exports = {sendTransaction, UpdateBalance};
