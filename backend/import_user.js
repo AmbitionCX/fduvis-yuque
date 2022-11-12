@@ -1,23 +1,21 @@
-const createConnectionPool = require('@databases/pg');
 const {sql} = require('@databases/pg');
+const db = require('./database');
 const axios = require('axios').default;
 require('dotenv').config();
 
 async function create_table() {
-        const db = createConnectionPool('postgres://' + process.env.PG_ENDPOINT + '@localhost:5432');
         await db.query(sql.file('./yq_actions.sql'));
         await db.query(sql.file('./yq_users.sql'));
         await db.dispose();
 }
 
 async function write_user() {
-        const db = createConnectionPool('postgres://' + process.env.PG_ENDPOINT + '@localhost:5432');
-        let user_id = "22870365";
-        let account = "0xD81A0cECB753cc55F3fe87f4960DAB01e50df727";
+        var user_id;
+        var account = "0xd3c214E9e24200Cb836aCc287B9bd20D62790493";
         var name;
-        var login;
+        var login = "liyun-xcz9y";
         try {
-                const endpoint = "https://fduvis.yuque.com/api/v2/users/" + user_id;
+                const endpoint = "https://fduvis.yuque.com/api/v2/users/" + login;
                 const auth = {
                         headers: {
                                 "X-Auth-Token": process.env.YUQUE_TOKEN,
@@ -25,7 +23,8 @@ async function write_user() {
                 };
                 const response = await axios.get(endpoint, auth);
                 name = response.data.data.name;
-                login = response.data.data.login;
+                user_id = response.data.data.id;
+                // login = response.data.data.login;
         } catch (error) {
                 console.log("Fetching User ID Failed");
                 console.log(error);
