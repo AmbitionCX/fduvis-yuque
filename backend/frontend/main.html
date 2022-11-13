@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>FVC Ranks</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
+    <div id="bar_chart"></div>
   </head>
 
   <body>
@@ -25,7 +25,56 @@
         })
       }
       getUsersBalance()
-      // console.log(usersBalance)
+      console.log(usersBalance)
+      // set the dimensions and margins of the graph
+      const margin = {top: 100, right: 100, bottom: 100, left: 100},
+          width = 1300 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
+
+      // append the svg object to the body of the page
+      const svg = d3.select("#bar_chart")
+        .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+
+
+
+      const x = d3.scaleBand()
+        .range([ 0, width ])
+        .domain(usersBalance.map(d => d.user_name))
+        .padding(0.2);
+      svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+          .attr("transform", "translate(-10,0)rotate(-45)")
+          .style("text-anchor", "end");
+
+
+      const y = d3.scaleLinear()
+        .domain([0, 30])
+        .range([ height, 0]);
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+
+      svg.selectAll("mybar")
+        .data(usersBalance)
+        .join("rect")
+          .attr("x", d => x(d.user_name))
+          .attr("y", d => y(d.user_balance))
+          .attr("width", x.bandwidth())
+          .attr("height", d => height - y(d.user_balance))
+          .attr("fill", "#F27B0A")
+
+      svg.append("text").text("FVC Ranks")
+          .attr("font-size","1.5em")
+          .attr("transform",`translate(550, 0)`)
+          .attr("text-anchor","middle");
+
     </script>
   </body>
 </html>
