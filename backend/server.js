@@ -8,16 +8,32 @@ const app = express();
 const port = 8083;
 require('dotenv').config();
 
-app.use(express.static('./public'));
 app.use(bodyParser.json());
 
 async function getUsersBalance(){
-  let usersBalance = await db.query(sql`select user_name, user_balance from yq_users`);
-  return usersBalance;
+  let usersBalance = await db.query(sql`select user_name, user_id, user_balance from yq_users`);
+  let sortedBalance = usersBalance.sort( function  sortByBalance(a, b){
+    return b.user_balance < a.user_balance ? -1 // push a to front
+        :  b.user_balance > a.user_balance ? 1 // push a to end
+        :  0;
+  })
+  return sortedBalance;
+}
+
+async function getUserActions(user_id){
+  let userActions = await db.query(sql`select f_action, f_doc, f_time from yq_actions where f_user = ${user_id}`);
+  return userActions;
 }
 
 app.get('/getUsersBalance', (request, response) => {
   getUsersBalance()
+    .then(results => {
+      response.send(results);
+    });
+})
+
+app.get('/getUserActions', (request, response) => {
+  getUserActions(request.query.user_id)
     .then(results => {
       response.send(results);
     });
