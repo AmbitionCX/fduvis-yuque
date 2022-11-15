@@ -7,15 +7,13 @@
     <style>
       div.tooltip {	
         position: absolute;			
-        text-align: center;			
-        width: 60px;					
-        height: 28px;					
-        padding: 2px;				
+        padding: 10px;				
         font: 12px sans-serif;		
         background: lightsteelblue;	
         border: 0px;		
         border-radius: 8px;			
-        pointer-events: none;			
+        pointer-events: none;	
+        align-items: left;
       }
     </style>
     <div id="bar_chart"></div>
@@ -114,17 +112,41 @@
           Tooltip.transition().duration(500).style("opacity", 0)
         })
         .on("click", function(d) {
+
+        d3.selectAll('circle').remove()
           getUserActions(d.target.__data__.user_id);
-          console.log(userActions);
+
+        var cScale = d3.scaleSequential()
+            .interpolator(d3.interpolateBlues)
+            .domain([0,30]);
 
           svg.selectAll("circle").data(userActions)
             .enter().append("circle")
             .style("stroke", "gray")
-            .style("fill", "black")
-            .attr("r", 40)
-            .attr("cx", 50)
-            .attr("cy", 20);
-        });
+            .style("fill", function(d,i){return cScale(i)})
+            .attr("r", 10)
+            .attr("cx", function(d,i){return i*50+10})
+            .attr("cy", 280)
+            .on("mouseover", function(event,d) {
+            Tooltip.transition().duration(200).style("opacity", .9);
+            var content = '<span class="name">f_action: </span><span class="value">' +
+                d.f_action +
+                '</span><br/>' +
+                '<span class="name">f_doc: </span><span class="value">' +
+                d.f_doc +
+                '</span><br/>' +
+                '<span class="name">f_time: </span><span class="value">' +
+                d.f_time +
+                '</span>';
+
+            Tooltip.html(content)	
+                    .style("left", (event.pageX) + "px")		
+                    .style("top", (event.pageY) + "px");	
+            })
+            .on("mouseleave", function(d) {
+            Tooltip.transition().duration(500).style("opacity", 0)
+            })
+    })
 
       svg.append("text").text("FVC Ranks")
           .attr("font-size","1.5em")
