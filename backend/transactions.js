@@ -20,7 +20,7 @@ async function sendTransaction(toAddress, amount){
   const contract = new web3.eth.Contract(abiArray, contractAddress);
 
   const default_gas_limit = 60000;
-  const default_gas_price = web3.utils.toWei('5', 'gwei');
+  const default_gas_price = web3.utils.toWei('10', 'gwei');
   const rawTransaction = {
     "from"    : account.address,
     "to"      : contractAddress,

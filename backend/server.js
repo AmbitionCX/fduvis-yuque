@@ -5,7 +5,7 @@ const db = require('./database');
 const txFunctions = require('./transactions');
 
 const app = express();
-const port = 8083;
+const port = 8082;
 require('dotenv').config();
 
 app.use(bodyParser.json());
