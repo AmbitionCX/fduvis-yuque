@@ -86,7 +86,7 @@ app.post('/', async (req, res) => {
         insert into yq_actions(f_user, f_path, f_doc, f_action, f_time, f_amount)
         values (${user_id}, ${doc_path}, ${doc_title}, ${action_type}, ${update_time}, ${token_amount})
     `);
-    await db.dispose();
+    // await db.dispose();
   } // if action is not duplicated
 })
 

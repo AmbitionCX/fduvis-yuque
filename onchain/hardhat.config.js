@@ -1,17 +1,13 @@
 require("@nomicfoundation/hardhat-toolbox");
-require('dotenv').config();
-
-const END_POINT = process.env.END_POINT;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
-
 module.exports = {
-  solidity: "0.8.17",
+  solidity: "0.8.18",
   networks: {
-    goerli: {
-      url: END_POINT,
-      accounts: [PRIVATE_KEY]
+    sepolia: {
+      url: process.env.INFURA_SEPOLIA_RPC,
+      accounts: [process.env.SEPOLIA_PRIVATE_KEY]
     }
   }
 };
