@@ -1,19 +1,19 @@
 {
-  "name": "hardhat",
+  "name": "contract",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.11.2"
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.15.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.7.3",
-    "dotenv": "^16.0.3"
+    "@openzeppelin/contracts": "^4.9.2",
+    "dotenv": "^16.3.1"
   }
 }
