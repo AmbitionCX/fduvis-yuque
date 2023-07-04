@@ -1,14 +1,24 @@
 {
-    "name": "yuque-app",
-    "version": "0.0.0",
-    "dependencies": {
-      "@databases/pg": "^5.4.1",
-      "axios": "^0.27.2",
-      "body-parser": "^1.20.0",
-      "dotenv": "^16.0.1",
-      "ethereumjs-common": "^1.5.2",
-      "ethereumjs-tx": "^2.1.2",
-      "express": "^4.18.1",
-      "web3": "^1.7.3"
-    }
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json",
+    "start": "node build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.3.3",
+    "@types/sqlite3": "^3.1.8",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ethers": "^6.6.2",
+    "fastify": "^4.19.2",
+    "sqlite3": "^5.1.6"
+  }
 }

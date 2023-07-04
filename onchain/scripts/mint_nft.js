@@ -1,5 +1,5 @@
-require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
+require("dotenv").config();
 
 const contract = require("../artifacts/contracts/erc721.sol/FDUVIS.json");
 const contractInterface = contract.abi;
