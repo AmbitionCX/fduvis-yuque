@@ -1,11 +1,12 @@
 const hre = require("hardhat");
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
-  console.log("Deploying contracts with the account:", deployer.address);
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contract with the account:", deployer.address);
 
-  const token = await ethers.deployContract("FDUVISCoinV1");
-  console.log("Token address:", await token.getAddress());
+  const contract_instance = await hre.ethers.deployContract("FDUVISCoinV1");
+  await contract_instance.waitForDeployment();
+  console.log("Contract deployed at:", contract_instance.target);
 }
 
 main()

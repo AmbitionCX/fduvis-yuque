@@ -18,7 +18,7 @@ interface IERC20 {
 
 contract FDUVISCoinV1 is IERC20 {
 
-    string public constant name = "FDUVISCoin";
+    string public constant name = "FDU-VIS Coin";
     string public constant symbol = "FVC";
     uint8 public constant decimals = 0;
     address public Owner;
