@@ -3,18 +3,35 @@ import * as path from 'path';
 import dotenv from "dotenv";
 
 const env_path = path.resolve(`${__dirname}/../.env`);
-dotenv.config({path: env_path});
+dotenv.config({ path: env_path });
 
-const provider = new ethers.JsonRpcProvider(process.env.INFURA_SEPOLIA_RPC);
+const contract_path = path.resolve(`${__dirname}/../../onchain/artifacts/contracts/fvc-v1.sol/FDUVISCoinV1.json`);
+const contract = require(contract_path);
+const contractInterface = contract.abi;
 
-export const run = async (): Promise<boolean> => {
-    console.log("getting latest blocknumber...")
-    const latestBlockNumber = await provider.getBlockNumber()
-    console.log("latest blockNumber:", latestBlockNumber)
-  
-    console.log(`getting block ${latestBlockNumber}...`)
-    const block = await provider.getBlock(latestBlockNumber)
-    console.log(`block ${latestBlockNumber}:`, block)
-  
-    return true
-  }
+// Sepolia
+const network = "sepolia";
+const provider = new ethers.InfuraProvider(
+  network,
+  process.env.INFURA_API_KEY
+);
+const signer = new ethers.Wallet(String(process.env.SEPOLIA_PVK), provider);
+
+const contractInstance = new ethers.Contract(
+  String(process.env.TOKEN_CONTRACT_ADDRESS),
+  contractInterface,
+  signer
+);
+
+export const grantToken = async (to: string, point: number) => {
+  let rawTransaction = await contractInstance.transfer(to, point);
+  await rawTransaction.wait();
+
+  return rawTransaction.hash;
+};
+
+export const queryBalance = async (address: string) => {
+  let balace = await contractInstance.balanceOf(address);
+
+  return balace;
+}

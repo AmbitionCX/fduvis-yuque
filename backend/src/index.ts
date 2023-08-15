@@ -1,13 +1,21 @@
 import fastify from 'fastify'
-import db from "./sqlite"
-import { run } from "./ethers"
+
+import * as sqlite from "./sqlite"
+import { grantToken } from "./ethers"
 
 const server = fastify()
 
-run()
+server.get('/', (request, reply) => {
+    reply.send('');
+  })
 
-server.get('/ping', async (request, reply) => {
+server.get('/ping', (request, reply) => {
     return 'pong\n'
+})
+
+server.post('/', (request, reply) => {
+    // console.log(request.body.data);
+    
 })
 
 server.listen({ port: 8080 }, (err, address) => {
