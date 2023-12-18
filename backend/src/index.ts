@@ -5,20 +5,23 @@ import { grantToken } from "./ethers"
 
 const server = fastify()
 
-server.get('/', (request, reply) => {
-    reply.send('');
-  })
+server.get('/', (request, response) => {
+    response.send('');
+})
 
-server.get('/ping', (request, reply) => {
+server.get('/ping', (request, response) => {
     return 'pong\n'
 })
 
-server.post('/', (request, reply) => {
-    // console.log(request.body.data);
-    
+server.post('/', (request, response) => {
+    console.log(request.body);
+
 })
 
-server.listen({ port: 8080 }, (err, address) => {
+server.listen({
+    port: 8080,
+    host: '0.0.0.0'
+}, (err, address) => {
     if (err) {
         console.error(err)
         process.exit(1)
